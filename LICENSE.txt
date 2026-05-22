@@ -1,0 +1,21 @@
+Sovereign AI Harness — Beta Evaluation License
+
+Copyright © 2026 Sovereign AI. All rights reserved.
+
+This software is provided to you for personal evaluation and testing
+purposes only. You may install and run it on machines you control. You
+may not:
+
+  - Redistribute, resell, sublicense, or share the software or any
+    portion of it
+  - Reverse-engineer, decompile, or attempt to extract source code
+  - Use the software in production systems or commercial offerings
+  - Use the software to train machine-learning models
+
+The software is provided "as is," without warranty of any kind. The
+author is not liable for any damages arising from its use.
+
+This license terminates automatically on any breach. On termination
+you must delete all copies.
+
+Contact yevgetman@gmail.com for any other usage.
