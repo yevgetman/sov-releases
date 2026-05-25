@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.6.2 — 2026-05-25
+
+Delegator event line visual improvements (follow-up to v0.6.1):
+
+- **Brighter text**: structural text ("atom N on") uses foreground color
+  instead of muted info; details (duration, lane distribution) use info
+  instead of dim. Lane names are now bold. Much higher contrast on dark
+  backgrounds.
+- **Preview truncation**: atom dispatch lines now respect terminal width —
+  the prompt preview is clipped with ellipsis instead of wrapping to the
+  next line.
+- **Intra-group spacing**: blank lines between the plan header, atom
+  events, and summary footer create a 3-section visual with breathing room.
+
 ## v0.6.1 — 2026-05-25
 
 Task routing UX polish — fixes five issues surfaced by a real session
