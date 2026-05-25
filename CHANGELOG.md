@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.6.0 — 2026-05-25
+
+Phase 21 M2: release pipeline now runs in GitHub Actions. Tagging
+`vX.Y.Z` and pushing the tag is the new release ceremony; the local
+`bun run release v0.x.y` flow remains operational as a fallback.
+
+- No runtime behavior changes; this is a release-engineering cut.
+- New `.github/workflows/release.yml` in `sovereign-ai-harness` drives compile + upload via tag-push.
+- `scripts/release.ts` refactored into thin orchestrator over `scripts/release-shared.ts` + `scripts/release-build-target.ts` + `scripts/release-upload.ts`.
+- Idempotent upload step: re-running against an already-published tag is a no-op success.
+
 ## v0.2.1 — 2026-05-22
 
 Cosmetic + correctness fixes surfaced by the v0.2.0 release smoke:
