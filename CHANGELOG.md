@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.6.3 — 2026-05-25
+
+Replace "basic blue" (`t.Primary`) with fixed sky-300 (`#7dd3fc`) in all
+delegator event lines and the AgentTool "Dispatched" verb. The saturated
+blue rendered poorly on dark terminals; the pinned light blue is
+consistent with the inline-code convention from M11.13.
+
+Convention rule added to `docs/conventions/tui-color-rendering.md`:
+`t.Primary` must not be used for text in tool/routing output — use
+`DelegatorAccentColor` or `CompactLineVerbColor` instead.
+
 ## v0.6.2 — 2026-05-25
 
 Delegator event line visual improvements (follow-up to v0.6.1):
