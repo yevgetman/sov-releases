@@ -1,5 +1,24 @@
 # Changelog
 
+## v0.6.1 — 2026-05-25
+
+Task routing UX polish — fixes five issues surfaced by a real session
+running the smart router against a complex generative task.
+
+- **AgentTool compact-line rendering**: `AgentTool` calls now render as
+  `Dispatched <agent> → <status>` in the theme's primary color (light blue)
+  instead of a raw JSON dump in brand-purple.
+- **Left margin**: 2-space indent on all compact tool lines and delegator
+  event lines, setting tool output apart from assistant text.
+- **Vertical spacing**: blank line before and after delegator event groups
+  so the routing progress reads as a visual unit.
+- **Lane timeouts**: moderate-task 2min→5min, frontier-task 2min→10min,
+  delegator 2min→10min. Prevents premature timeout on complex generative
+  tasks. cheap-task stays at 2min.
+- **Empty-output detection**: AgentTool now marks status=error when the
+  subagent reports "completed" but produced no output — prevents misleading
+  success indicators.
+
 ## v0.6.0 — 2026-05-25
 
 Phase 21 M2: release pipeline now runs in GitHub Actions. Tagging
