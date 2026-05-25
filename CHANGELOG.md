@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.6.5 — 2026-05-25
+
+- Blank line after user echo (`»` prompt) before the first tool or text
+  event — prevents the echo from crashing into the next line.
+- Task router preset indicator in the status bar now updates live when a
+  preset is applied or routing config changes via `/config`.
+- Status bar immediately clears "Task Router Active" when routing is
+  disabled via `/config`, confirming the setting took effect.
+
 ## v0.6.4 — 2026-05-25
 
 Global TUI style guide. New `packages/tui/internal/style/` package
