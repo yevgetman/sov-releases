@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.6.4 — 2026-05-25
+
+Global TUI style guide. New `packages/tui/internal/style/` package
+centralizes every spacing, padding, margin, border, glyph, brand-color,
+and typography token across the TUI into a single authoritative source.
+Components reference `style.S.*` instead of hardcoded values. Themes
+remain separate for switchable color palettes.
+
+Visual output is byte-identical to v0.6.3 — all tokens seeded from exact
+current values. Future UX updates are single-line changes in the style
+package instead of ad-hoc edits across 17+ component files.
+
 ## v0.6.3 — 2026-05-25
 
 Replace "basic blue" (`t.Primary`) with fixed sky-300 (`#7dd3fc`) in all
