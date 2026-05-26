@@ -1,5 +1,25 @@
 # Changelog
 
+## v0.6.6 — 2026-05-26
+
+- **Bug fix:** Task routing agents (delegator, cheap-task, moderate-task,
+  frontier-task) are now hidden from the model when `taskRouting.enabled`
+  is false. Previously the model could dispatch to routing agents even
+  with routing disabled.
+- **UX:** User input marker changed from dark blue `»` to `❯` in
+  sky-300 (#7dd3fc) for better visibility on dark terminals.
+- **UX:** Added breathing room (1 blank line) above each user input echo.
+- **UX:** Reduced idle-check spinner delay from 700ms to 400ms so the
+  "Thinking" indicator reappears faster during text→tool gaps.
+- **UX:** Tighter spacing between assistant text and compact tool lines
+  (trimmed trailing newlines from markdown renderer output).
+- **UX:** Stripped "Phase X" dev build names from `/config` catalog
+  group descriptions.
+- **UX:** "no changes to save" → "config is up to date" on `/config`
+  commit with no pending changes.
+- **UX:** `sov config` now exits cleanly after save (S) or ESC on the
+  root menu instead of leaving a dead screen.
+
 ## v0.6.5 — 2026-05-25
 
 - Blank line after user echo (`»` prompt) before the first tool or text
