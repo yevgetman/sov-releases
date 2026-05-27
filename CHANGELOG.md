@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.6.8 — 2026-05-27
+
+- **UX:** Preserve 1 trailing newline after rendered markdown in
+  `EndAssistantCard`. The v0.6.6 aggressive trim removed all trailing
+  whitespace, eliminating the natural paragraph gap before the turn
+  separator. Now the text has breathing room at end of turn while
+  keeping the text→tool gap tight.
+
 ## v0.6.7 — 2026-05-27
 
 - **UX:** Added end-of-turn trailing gap after the turn separator line.
