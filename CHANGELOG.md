@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.6.7 — 2026-05-27
+
+- **UX:** Added end-of-turn trailing gap after the turn separator line.
+  New `style.S.Separator.TrailingGap` token (1 blank line) prevents
+  the prompt from crowding the assistant's last line of output.
+
 ## v0.6.6 — 2026-05-26
 
 - **Bug fix:** Task routing agents (delegator, cheap-task, moderate-task,
