@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.6.9 — 2026-05-27
+
+- **UX:** Reduced end-of-turn gap — `Separator.TrailingGap` set to 0.
+  The separator line + `Echo.LeadingGap` provide enough visual boundary
+  without the extra blank line after the rule.
+
 ## v0.6.8 — 2026-05-27
 
 - **UX:** Preserve 1 trailing newline after rendered markdown in
