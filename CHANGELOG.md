@@ -1,5 +1,64 @@
 # Changelog
 
+## v0.6.12 — 2026-05-28
+
+Robustness release: a conservative whole-codebase bug audit found 21 objective,
+function-breaking defects (1 critical, 11 high, 8 medium, 1 low); all are fixed,
+each with a new regression test.
+
+**Security / permissions**
+
+- **Web-fetch SSRF protection is live again.** The tool input-validation step
+  was never invoked by the runtime, so web-fetch's scheme + private-host/
+  loopback guard was effectively off. It now runs, and additionally re-validates
+  every redirect hop and blocks link-local / cloud-metadata (`169.254.x`) and
+  `0.0.0.0` addresses.
+- **Shell commands that write a file via `>` are no longer auto-approved.** A
+  command like `cat secret > /file` was misclassified as harmless "read-only"
+  and ran with no permission prompt; output redirects are now treated as writes
+  (both detection sites), while `2>&1`-style fd-duplications stay read-only.
+- A mistyped `-p <profile>` or a corrupted profile-pointer file can no longer
+  escape the profiles directory (path-traversal); profile names are validated.
+
+**Reliability / crashes**
+
+- A turn aimed at a nonexistent session no longer crashes the whole server
+  process — it returns a clean 404.
+- Typing `@file:`/`@folder:` on an unreadable path no longer silently freezes
+  the turn; it inlines an error marker instead.
+- When the default provider (Anthropic) rate-limits or rejects your key, the
+  harness now backs off / fails over (and shows the right startup error)
+  instead of ignoring it.
+- A startup database-cleanup step no longer crashes boot when the DB is briefly
+  busy (now that the API server and scheduler share it).
+- The background daemon's single-instance lock no longer mistakes a live
+  process it can't signal for a dead one.
+
+**TUI**
+
+- The interface no longer freezes after `/clear` or `/rollback` — the live
+  update stream now reconnects to the new session.
+- A large file-read (or big tool output) no longer kills the live update
+  stream mid-turn.
+
+**API server**
+
+- The OpenAI-compatible server no longer leaks an event channel per streaming
+  request, and a failed message-save no longer returns a broken error or leaks
+  a session.
+- OpenAI / OpenRouter turns now report token usage and cost (was always `$0`).
+
+**Other correctness**
+
+- Skills that embed shell commands or take arguments no longer garble text
+  containing `$` sequences (prices, `awk $1`, git diffs, etc.).
+- Saved memory/skill review proposals that quote multi-line text round-trip
+  losslessly (were silently truncated/corrupted on disk).
+- File-pattern search (`Glob`) returns deterministic, sorted results when
+  truncating to a limit.
+- Deterministic test-replay no longer swaps results between concurrent
+  same-tool calls.
+
 ## v0.6.11 — 2026-05-28
 
 - **UX:** `Echo.TrailingGap` reverted 2 → 1, restoring symmetric padding
