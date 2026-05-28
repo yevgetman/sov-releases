@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.6.11 — 2026-05-28
+
+- **UX:** `Echo.TrailingGap` reverted 2 → 1, restoring symmetric padding
+  above and below the user echo line. The v0.6.10 bump to 2 was based on
+  VHS-rendered screenshots that had artificially wide letter-spacing
+  (font fallback bug); once visual QA was calibrated to real Terminal.app
+  density, the 2-blank within-turn gap stood out as too loose. The Q→A
+  pair now reads as paired, with turn-to-turn separation remaining
+  clearly larger.
+
 ## v0.6.10 — 2026-05-28
 
 Visual QA loop iteration (all 4 changes verified against rendered PNGs
