@@ -1,5 +1,24 @@
 # Changelog
 
+## v0.6.10 — 2026-05-28
+
+Visual QA loop iteration (all 4 changes verified against rendered PNGs
+before commit).
+
+- **UX:** `Echo.TrailingGap` bumped 1 → 2. The gap between a user
+  question and the assistant's response now has the breathing room
+  the conversation rhythm wanted, while still pairing cleanly visually.
+- **UX:** Prompt textinput marker changed `›` → `▸`. Previously the
+  prompt cursor area and the committed user echo both used similar
+  right-angle-bracket glyphs, reading at a glance as "the same
+  thing." The new `▸` is a filled small triangle — clearly a
+  different shape from the user echo's `❯`.
+- **UX:** Strong markdown (`**bold**`) now renders in
+  `Brand.AccentColor` (sky-300, `#7dd3fc`) — same color as inline
+  code. Pre-fix, `**56**` rendered uncolored while `Node.js` inside
+  backticks rendered sky-blue, so the same conceptual emphasis
+  looked visually inconsistent in the same response.
+
 ## v0.6.9 — 2026-05-27
 
 - **UX:** Reduced end-of-turn gap — `Separator.TrailingGap` set to 0.
