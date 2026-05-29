@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.6.13 — 2026-05-29
+
+TUI polish: markdown **headings** now render in a clearly lighter sky-blue
+(`#e0f2fe`, Tailwind sky-100) so they stand apart from **bold** text and
+`inline code`, which use the slightly darker sky-300 (`#7dd3fc`). Previously
+headings sat only one shade lighter (sky-200) and read as nearly the same blue
+as inline emphasis. Heading color remains theme-independent.
+
 ## v0.6.12 — 2026-05-28
 
 Robustness release: a conservative whole-codebase bug audit found 21 objective,
