@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.6.16 — 2026-06-04
+
+Learned lessons are now **recalled into the agent by default** (opt out with
+`learning.recall.enabled=false`). Since the spike's Phase-1 proof cleared its
+bar, recall is now on out of the box: lessons the harness has learned are
+surfaced in front of a turn so they can shape its behavior. It stays
+fail-open and is a no-op when there's nothing learned yet, so a fresh harness
+behaves exactly as before.
+
 ## v0.6.15 — 2026-06-04
 
 Learning-loop spike, Phase 1 — **complete**. The loop is now closed end to
