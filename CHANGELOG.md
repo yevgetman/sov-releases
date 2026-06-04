@@ -1,5 +1,27 @@
 # Changelog
 
+## v0.6.15 — 2026-06-04
+
+Learning-loop spike, Phase 1 — **complete**. The loop is now closed end to
+end: the harness can synthesize a lesson from what it observed, recall it in
+front of a later turn, and have that lesson change its behavior — with no human
+in the loop. As in v0.6.14, recall stays **off by default** (enable it with
+`learning.recall.enabled: true`), so default behavior is unchanged.
+
+Two fixes made the loop actually yield:
+
+- **Synthesis now produces usable lessons from realistic evidence.** The
+  confidence curve was effectively unreachable — a lesson needed on the order of
+  tens of millions of observations to clear the bar. It now saturates sensibly
+  (roughly ~6 observations to survive pruning, ~20 to be promoted). Observations
+  of the same tool with different arguments now group together instead of
+  fragmenting, and synthesis can also be triggered at the end of a session
+  (`learning.synthesizeOnSessionEndAfter`). The synthesizer fails loudly on
+  error rather than silently producing nothing, and has more room to reason.
+- **Recalled lessons are now scoped to the right project.** Recall was reading a
+  different project identifier than the one lessons are written under, so
+  project-scoped lessons were never surfaced. Read and write paths now agree.
+
 ## v0.6.14 — 2026-06-03
 
 Learning-loop spike, Phase 1 — the learning layer is now constructed at runtime
