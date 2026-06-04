@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.6.14 — 2026-06-03
+
+Learning-loop spike, Phase 1 — the learning layer is now constructed at runtime
+boot and its per-turn "recall" path is wired into the conversation turn. Recall
+(surfacing relevant learned lessons in front of a turn) is **off by default** —
+enable it with `learning.recall.enabled: true` (tunable `maxLessons` /
+`tokenBudget`). When off, behavior is unchanged.
+
+This release also fixes a latent bug: on the TUI / API-server surface, your
+project + global `MEMORY.md` was never being injected into turns (only the CLI
+paths injected it). MEMORY.md now injects on every surface, as intended.
+
 ## v0.6.13 — 2026-05-29
 
 TUI polish: markdown **headings** now render in a clearly lighter sky-blue
