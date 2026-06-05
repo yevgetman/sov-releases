@@ -1,5 +1,30 @@
 # Changelog
 
+## v0.6.17 — 2026-06-05
+
+New **`sov gateway`** — drive the harness from any remote UI over an
+authenticated HTTP+SSE gateway. It exposes the harness's native, interactive
+protocol (live turns, streaming output, tool activity, permission prompts,
+slash commands, skills) so a web app, a phone, or a custom client can run a
+full session over the network — not just one-shot completions like `sov serve`.
+
+Secure by default:
+
+- **Loopback-only out of the box.** Reachable only from the same machine
+  unless you explicitly bind it elsewhere (`--host`, `SOV_GATEWAY_HOST`, or
+  `gateway.host`; default port `8766`).
+- **Refuses to start exposed without a token.** If you bind it off-loopback
+  without setting an auth token (`SOV_GATEWAY_TOKEN` or `gateway.token`), it
+  exits with a clear message instead of standing up an open, tool-running
+  agent.
+- **Bearer auth on every session route** (including the live event stream); a
+  `/health` probe stays open. CORS is closed by default and opens only to the
+  browser origins you allow-list (`gateway.corsOrigins`).
+
+Whoever holds the token gets the harness's full tool powers, so expose the
+gateway only behind a constrained permission policy (and TLS). Your normal
+`sov`, `sov serve`, and `sov drive` usage is unchanged.
+
 ## v0.6.16 — 2026-06-04
 
 Learned lessons are now **recalled into the agent by default** (opt out with
