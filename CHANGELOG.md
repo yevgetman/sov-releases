@@ -1,5 +1,34 @@
 # Changelog
 
+## v0.6.21 — 2026-06-06
+
+**Persistent gateway: idle sessions are reclaimed automatically (transparent
+resume); new GET/DELETE /sessions lifecycle routes; optional concurrency cap;
+run-as-a-service docs.**
+
+A long-running `sov gateway` is now a persistent multi-session host that stays
+healthy over days of uptime:
+
+- **Idle sessions are reclaimed automatically — transparently.** The gateway
+  frees the in-memory state of sessions you've stopped using (idle past
+  `gateway.idleSessionTimeoutMs`, default 30 min; swept every
+  `gateway.idleSweepIntervalMs`, default 5 min). It's transparent: the durable
+  session is kept on disk and resumes on your next request, so you can come back
+  hours later and pick up the conversation. It never reclaims a session
+  mid-turn or one with a connected client.
+- **Manage sessions over the API.** `GET /sessions` lists sessions with live
+  annotations (is it live, is a turn running, how many clients are watching);
+  `DELETE /sessions/:id` permanently removes one.
+- **Optional concurrency cap.** Set `gateway.maxConcurrentSessions` (default 0 =
+  unlimited) to cap live sessions; the gateway sweeps idle ones first and only
+  pushes back (429) when it's genuinely full.
+- **Run it as a service.** New docs with ready-to-adapt systemd and macOS
+  launchd definitions, so the gateway restarts on failure / boot and resumes
+  sessions across restarts.
+
+No change to your normal `sov`, `sov serve`, or `sov drive` usage — this is all
+gateway-scoped.
+
 ## v0.6.20 — 2026-06-06
 
 **Built-in web UI: open the gateway URL in a browser to chat with the harness —
