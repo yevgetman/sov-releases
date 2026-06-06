@@ -1,5 +1,25 @@
 # Changelog
 
+## v0.6.18 — 2026-06-05
+
+Gateway hardening + docs for driving the gateway from a browser.
+
+- **Sturdier under bad input.** A malformed or empty request body on the
+  turns and approvals routes now returns a clear `400` instead of a `500`,
+  and the gateway validates its port at startup (failing fast on `0`,
+  out-of-range, or garbage values rather than silently binding a random port).
+- **Cleaner shutdown.** Pressing Ctrl-C mid-turn now cancels the in-flight
+  work before closing the database, so the gateway (and `sov serve`) shut down
+  cleanly even while a turn is running.
+- **New docs: driving the gateway from a browser.** A live cross-origin
+  browser test confirmed the gateway is genuinely browser-drivable and
+  surfaced the one big gotcha — the browser `EventSource` API can't send an
+  auth header, so web clients must consume the event stream with `fetch()`
+  instead. The usage guide now includes a copy-pasteable browser client
+  example plus CORS, status-code, and permission-mode notes.
+
+No change to your normal `sov`, `sov serve`, or `sov drive` usage.
+
 ## v0.6.17 — 2026-06-05
 
 New **`sov gateway`** — drive the harness from any remote UI over an
