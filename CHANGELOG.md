@@ -1,5 +1,28 @@
 # Changelog
 
+## v0.6.24 — 2026-06-06
+
+**Channels now participate in the learning loop and stay responsive on long
+conversations and concurrent messages — plus reliability and documentation fixes.**
+
+A holistic review of the channels and gateway surfaces (E+F) hardened how inbound
+Slack / Telegram / webhook messages are handled:
+
+- **Channels join the learning loop.** A channel session now reads and writes
+  memory and gets relevant recalled context spliced in, just like an interactive
+  session — so a channel conversation accrues and benefits from what the harness
+  has learned (per the channel's isolated principal).
+- **Responsive on long + concurrent conversations.** Channel history is now
+  bounded so a long-running conversation stays fast, and multiple messages on the
+  same conversation are serialized so they no longer race.
+- **Reliability fixes.** Telegram switches to a robust long-poll with backoff,
+  stale channel sessions are swept automatically, errors surface instead of being
+  silently swallowed, and source-id / request-body handling was hardened.
+- **Documentation audit.** The usage and architecture docs were brought current.
+
+No configuration changes — channels remain off unless configured, and your normal
+`sov`, `sov serve`, and `sov drive` usage is unchanged.
+
 ## v0.6.23 — 2026-06-06
 
 **Channels: drive the harness from Slack, Telegram, or a generic webhook — each
