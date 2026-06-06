@@ -1,5 +1,43 @@
 # Changelog
 
+## v0.6.23 — 2026-06-06
+
+**Channels: drive the harness from Slack, Telegram, or a generic webhook — each
+an isolated principal with a safe-by-default permission posture.**
+
+A self-hosted `sov gateway` can now be driven by inbound messages. A Slack,
+Telegram, or generic-webhook message routes to a per-conversation harness
+session, runs a turn, and the reply comes back over the same channel:
+
+- **Three adapters.** A **generic webhook** (`POST /channels/webhook/default`,
+  HMAC-SHA256-signed, synchronous reply — no external account needed),
+  **Telegram** (long-poll, no public endpoint — just a @BotFather bot token), and
+  **Slack** (Events API: signing-secret verification, the URL-verification
+  handshake, and an asynchronous reply).
+- **Each channel is an isolated principal.** A channel binds to a configured
+  principal, so its sessions, memory, and learning are isolated from every other
+  principal — and never see a human user's data. Each sender gets a continuous,
+  coherent conversation.
+- **Safe by default.** A channel message is untrusted remote input, so a channel
+  turn does **not** inherit your local allow-rules and auto-denies anything that
+  would prompt — `Bash`, `Write`, `Edit`, and other dangerous tools are denied
+  unless you add explicit per-channel allow rules. `bypass` mode is forbidden for
+  channels.
+- **Configure `gateway.channels`.** Each channel names a `principalId` and its
+  secret (resolved env-first — `SOV_WEBHOOK_SECRET` / `SOV_TELEGRAM_BOT_TOKEN` /
+  `SOV_SLACK_SIGNING_SECRET` + `SOV_SLACK_BOT_TOKEN`). See the usage guide for the
+  full Slack/Telegram setup steps.
+
+v1 limits: channel turns auto-deny (no in-channel approval UI), replies are plain
+text (no rich Slack/Telegram UX), and a single very long conversation isn't
+compacted yet. Shipped after a hard adversarial security review. Channels are off
+unless configured — no change to your normal `sov`, `sov serve`, or `sov drive`
+usage.
+
+**This release completes the run-anywhere roadmap** — a secure remote gateway, a
+multi-client reconnecting transport, a reference browser UI, a persistent
+multi-session supervisor, multi-user isolation, and now inbound channels.
+
 ## v0.6.22 — 2026-06-06
 
 **Multi-user gateway: configure named principals — each gets isolated sessions,
