@@ -1,5 +1,31 @@
 # Changelog
 
+## v0.6.22 — 2026-06-06
+
+**Multi-user gateway: configure named principals — each gets isolated sessions,
+memory, and learning (within-org trust model).**
+
+A single self-hosted `sov gateway` can now serve multiple named users, each
+isolated from the others:
+
+- **Named principals.** Configure `gateway.principals` (a list of
+  `{ id, token, name? }`) instead of the single `gateway.token` — each user
+  authenticates with their own bearer token. (The two are mutually exclusive:
+  pick single-user or multi-user.)
+- **Isolated sessions.** Each session is owned by the user who created it. Other
+  users can't see it, resume it, or delete it — another user's session simply
+  looks like it doesn't exist (404). `GET /sessions` lists only your own.
+- **Isolated memory + learning.** Each user gets their own memory and learned
+  instincts, scoped to them and never shared across users.
+- **No anonymous access in multi-user mode.** When principals are configured, a
+  valid token is required on every request — including on loopback.
+
+This is the **within-org / single-trust-domain** model — trusted-but-separate
+users on one operator-run gateway (a team, a household, a small org). It is not
+hostile multi-tenant isolation. Shipped after a hard adversarial security
+review. No change to your normal `sov`, `sov serve`, or `sov drive` usage —
+single-user and no-auth modes are unchanged.
+
 ## v0.6.21 — 2026-06-06
 
 **Persistent gateway: idle sessions are reclaimed automatically (transparent
