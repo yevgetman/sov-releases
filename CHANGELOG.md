@@ -1,5 +1,27 @@
 # Changelog
 
+## v0.6.20 — 2026-06-06
+
+**Built-in web UI: open the gateway URL in a browser to chat with the harness —
+streaming, tool approvals, reconnect.**
+
+The gateway now ships a real browser chat client, served by the gateway itself:
+
+- **Open it in a browser.** Run `sov gateway` and browse to its URL (default
+  `http://127.0.0.1:8766/`, also at `/ui`). Paste your gateway bearer token on
+  the connect screen and you're chatting — no separate install, no build step.
+- **The full interactive experience.** Live token-by-token streaming, collapsible
+  thinking blocks, tool cards, and **inline permission prompts** (Approve / Deny
+  right in the page) — plus auto-reconnect if the connection drops, a new-chat
+  button, and cancel.
+- **Self-contained + same-origin.** It's a single page embedded in the binary
+  and served by the gateway it talks to, so it needs no CORS setup. Your token
+  stays in the browser (it's never baked into the page).
+
+Also includes a fix so an idle reconnecting stream can't hang the web UI.
+
+No change to your normal `sov`, `sov serve`, or `sov drive` usage.
+
 ## v0.6.19 — 2026-06-05
 
 **Multi-client gateway: multiple clients per session, reconnect-with-replay,
