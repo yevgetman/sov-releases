@@ -1,5 +1,28 @@
 # Changelog
 
+## v0.6.19 — 2026-06-05
+
+**Multi-client gateway: multiple clients per session, reconnect-with-replay,
+and a persistent `?follow` stream.**
+
+Building on the new `sov gateway`, the session event stream is now multi-client
+and reconnect-safe — so a real web or mobile UI can sit on top of it:
+
+- **Multiple clients per session.** Two devices can watch the same session at
+  once; every client receives every event.
+- **Reconnect without losing events.** Each event carries a sequence id, so a
+  client that drops can reconnect with `Last-Event-ID` (or a `?lastEventId`
+  query) and the gateway replays the events it missed, then continues live. The
+  replay window is bounded (configurable via `gateway.eventBufferSize`, default
+  512 events per session).
+- **Persistent `?follow` stream.** `GET /sessions/:id/events?follow=true` keeps
+  the stream open across turns — subscribe once and watch the whole session,
+  instead of re-opening the stream for each turn. Combine it with
+  `Last-Event-ID` for seamless reconnect.
+
+No change to your normal `sov`, `sov serve`, or `sov drive` usage — the default
+per-turn stream behavior is unchanged.
+
 ## v0.6.18 — 2026-06-05
 
 Gateway hardening + docs for driving the gateway from a browser.
