@@ -1,5 +1,20 @@
 # Changelog
 
+## v0.6.25 — 2026-06-06
+
+**Scheduled jobs (cron) now draw on memory and learned instincts, like
+interactive sessions — plus CI/build maintenance.**
+
+- **Cron joins the learning loop.** A scheduled job's turn now reads your
+  project memory and gets relevant recalled context spliced in, just like an
+  interactive session, a channel, or `sov drive` — so a recurring job benefits
+  from what the harness has learned instead of starting cold every run.
+- **CI/build maintenance.** The release pipeline was moved off the deprecated
+  Node 20 runner onto current Node 24 runtimes.
+
+No configuration changes — cron remains off unless you've scheduled jobs, and
+your normal `sov`, `sov serve`, and `sov drive` usage is unchanged.
+
 ## v0.6.24 — 2026-06-06
 
 **Channels now participate in the learning loop and stay responsive on long
