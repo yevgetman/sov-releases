@@ -1,5 +1,23 @@
 # Changelog
 
+## v0.6.26 — 2026-06-06
+
+**Text the harness over SMS (Twilio).**
+
+- **New SMS channel.** A self-hosted `sov gateway` can now be driven over SMS via
+  Twilio — text a question, get a reply. Like the other channels, it is
+  **allow-listed** (only numbers you explicitly map can drive a turn — a phone
+  number is publicly textable, so an unlisted sender gets nothing), **per-sender
+  isolated** (each allowed number is its own principal with its own sessions,
+  memory, and learning), and runs under the same **safe-by-default** permission
+  posture as Slack / Telegram / webhook. Carrier-mandated STOP / HELP / START are
+  handled automatically. See the SMS setup section in the usage docs (buy a Twilio
+  number, point its Messaging webhook at `/channels/sms`, set the credentials and
+  your allow-list).
+
+Channels remain off unless configured, and your normal `sov`, `sov serve`, and
+`sov drive` usage is unchanged.
+
 ## v0.6.25 — 2026-06-06
 
 **Scheduled jobs (cron) now draw on memory and learned instincts, like
