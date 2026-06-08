@@ -1,5 +1,25 @@
 # Changelog
 
+## v0.6.32 — 2026-06-08
+
+**The subscription executor runs unattended-friendly by default; skills hardening.**
+
+- **Subscription executor defaults to `--dangerously-skip-permissions`.** The opt-in
+  headless Claude Code executor now defaults its `permissionMode` to `bypass`, because
+  a headless `claude -p` has no interactive approver — under the old `plan` default any
+  tool the subprocess needed permission for would auto-deny and stall, leaving the
+  executor largely inert. With bypass it can actually do the delegated work. Set
+  `permissionMode` to `plan` / `acceptEdits` / `default` for a constrained posture
+  instead. This stays bounded to the attended, interactive-only delegation seam — it is
+  NOT available to cron, channels, or the gateway (those keep their own bypass
+  rejection), and the whole executor is still off by default.
+- **Skills hardening.** A malformed skill `allowedTools` entry no longer crashes the
+  `/skill` turn; an all-invalid `allowedTools` list now fails loud rather than
+  fail-open; skill install-name extraction uses the real YAML parser; and the
+  comma-list splitter is paren/bracket-depth aware.
+
+If you don't enable the subscription executor, your normal usage is unchanged.
+
 ## v0.6.31 — 2026-06-08
 
 **Configure the subscription executor from the TUI; MCP remote-transport hardening.**
