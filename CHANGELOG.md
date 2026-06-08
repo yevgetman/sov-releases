@@ -1,5 +1,27 @@
 # Changelog
 
+## v0.6.30 — 2026-06-08
+
+**Connect to remote MCP servers, not just local ones.**
+
+- **Remote MCP transport (HTTP/SSE).** An `mcpServers` entry can now point at a
+  hosted MCP server over Streamable HTTP or legacy SSE, in addition to the
+  existing local-process (stdio) form. A remote entry is
+  `{ "type": "http" | "sse", "url": "...", "headers"?, "bearerToken"?,
+  "apiKey"? }`; the local `{ "command": ... }` form is unchanged. Auth is
+  env-first — set `SOV_MCP_<ALIAS>_TOKEN` or `SOV_MCP_<ALIAS>_API_KEY` rather
+  than putting a secret in the config file. This opens the harness to the
+  growing ecosystem of hosted/remote MCP servers.
+- **Security: auth headers are stripped on cross-origin redirects.** If a remote
+  MCP server redirects to a different origin, your bearer token / API key is
+  dropped from the redirected request, so a malicious or compromised server
+  can't exfiltrate it. Secrets are never logged, and `/status` shows the server
+  origin only, not the full URL.
+
+These changes only affect MCP server connections; if you don't configure a
+remote MCP server, your normal `sov`, `sov serve`, `sov drive`, and gateway
+usage is unchanged.
+
 ## v0.6.29 — 2026-06-08
 
 **Bring your Claude Code skills over — and skill tool limits are now real.**
