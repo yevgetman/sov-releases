@@ -1,5 +1,30 @@
 # Changelog
 
+## v0.6.31 — 2026-06-08
+
+**Configure the subscription executor from the TUI; MCP remote-transport hardening.**
+
+- **Subscription executor is now in the config UI.** The opt-in
+  `subscriptionExecutor` block — which hands a delegated sub-agent task to a
+  headless `claude -p` subprocess so heavy agentic work runs under your Claude
+  subscription instead of per-token API billing — was previously schema-only,
+  editable only by hand-editing `~/.harness/config.json`. It now appears in the
+  config TUI under **Subscription executor** (`/config` → Subscription executor,
+  or `sov config`), next to Task routing. All six fields (enabled, engine,
+  binary, permissionMode, timeoutMs, maxTurns) are editable, each marked "next
+  session" since the scheduler binds the executor config at startup. Still off
+  by default and still personal/attended-use-only.
+- **MCP remote-transport hardening (review-fix batch).** Auth is kept across a
+  same-host `http`→`https` redirect upgrade (but still dropped cross-origin); an
+  env MCP token (`SOV_MCP_<ALIAS>_TOKEN`) now wins over a committed
+  `Authorization` header; the connect-timeout timer is cleared and stdio error
+  codes are surfaced; and the MCP config schema reports a single clear error on
+  a malformed entry. These refine the remote-MCP support that shipped in
+  v0.6.30.
+
+If you don't enable the subscription executor or configure a remote MCP server,
+your normal usage is unchanged.
+
 ## v0.6.30 — 2026-06-08
 
 **Connect to remote MCP servers, not just local ones.**
