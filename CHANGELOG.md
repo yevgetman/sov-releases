@@ -1,5 +1,23 @@
 # Changelog
 
+## v0.6.28 — 2026-06-08
+
+**Delegation answers show up in `sov drive`; one safer config guardrail.**
+
+- **Fix: delegated answers now show in `sov drive`.** When you delegate work
+  to the subscription executor, `sov drive` was printing
+  `[result AgentTool] (no summary)` even though the delegated answer had come
+  back — the answer was only missing from the display, never from the model.
+  The delegated result now renders correctly. (The TUI was already fine.)
+- **Config guardrail: subscription executor and task routing are mutually
+  exclusive.** They are two different cost strategies — a flat-rate
+  subscription vs. routing by API cost tier — so enabling both at once now
+  fails config validation up front with a clear message telling you to pick
+  one, instead of silently letting them conflict.
+
+Both changes are inert unless you use the relevant features; your normal `sov`,
+`sov serve`, `sov drive`, and gateway usage is unchanged.
+
 ## v0.6.27 — 2026-06-08
 
 **Opt-in: delegate heavy work to a headless Claude Code session under your own
