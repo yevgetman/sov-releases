@@ -1,5 +1,28 @@
 # Changelog
 
+## v0.6.29 — 2026-06-08
+
+**Bring your Claude Code skills over — and skill tool limits are now real.**
+
+- **Import a Claude Code skill as-is.** A Claude Code `SKILL.md` now loads
+  natively: its `allowed-tools` frontmatter key (including the common
+  comma-separated-string form, e.g. `allowed-tools: Read, Grep`) is accepted as
+  an alias for the harness's `allowedTools`. The new `/skills import <path>`
+  command brings one in for you — it rewrites the frontmatter to the harness's
+  canonical form, validates it, copies any bundled references and scripts, and
+  reports what it converted and any warnings.
+- **Skill `allowedTools` is now enforced, not just advisory.** When you run a
+  skill via `/skill`, its declared `allowedTools` now actually restrict which
+  tools that turn can use (and sub-agents forked mid-turn inherit the same
+  restricted set) — previously the list was documentation only. (The
+  model-invoked `Skill` tool stays advisory by design.)
+- **Hardening: skill import/install reject out-of-tree symlinks.** A skill tree
+  being imported or installed can no longer smuggle in symlinks that point
+  outside the skill directory.
+
+These changes only affect skills; your normal `sov`, `sov serve`, `sov drive`,
+and gateway usage is unchanged.
+
 ## v0.6.28 — 2026-06-08
 
 **Delegation answers show up in `sov drive`; one safer config guardrail.**
