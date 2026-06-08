@@ -1,5 +1,29 @@
 # Changelog
 
+## v0.6.27 — 2026-06-08
+
+**Opt-in: delegate heavy work to a headless Claude Code session under your own
+Claude install.**
+
+- **Subscription executor (opt-in, off by default).** You can now hand a
+  delegated sub-agent task to a headless Claude Code session running under your
+  **local `claude` install** — so heavy agentic work runs at your **subscription
+  flat rate** instead of per-token API billing. The delegated session runs
+  Claude Code's own loop and returns its result through the normal sub-agent
+  path, and its per-tool work feeds the harness's memory/learning just like a
+  native turn. Requires `claude` installed and logged in; enable it with the
+  `subscriptionExecutor` config block (see the "Subscription executor" section
+  in the usage docs).
+- **Personal / attended use only.** This is for a human at the keyboard
+  delegating to their own logged-in Claude Code — driving a consumer
+  subscription as an automated or multi-tenant backend is against subscription
+  terms, so the executor is wired only to the interactive sub-agent path and is
+  deliberately **not** available to cron, channels, or the gateway (those stay
+  on the per-token API). See the docs for the full terms boundary.
+
+Off by default — your normal `sov`, `sov serve`, `sov drive`, and gateway usage
+is byte-for-byte unchanged unless you explicitly enable it.
+
 ## v0.6.26 — 2026-06-06
 
 **Text the harness over SMS (Twilio).**
