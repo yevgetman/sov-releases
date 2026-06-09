@@ -1,5 +1,26 @@
 # Changelog
 
+## v0.6.37 — 2026-06-09
+
+**Dial how hard the model thinks with the new `/effort` command — named reasoning-depth levels, off by default.**
+
+- **New `/effort` command.** Set per-session reasoning depth with `/effort off | low |
+  medium | high | max`, or run `/effort` with no argument to pick from a menu;
+  `/effort status` shows the current level. Higher effort gives the model a larger
+  extended-thinking budget before it answers — the dial to reach for on hard problems.
+- **Works across providers.** On Claude 4.x models (Haiku / Sonnet / Opus) the level maps
+  to an extended-thinking token budget; on OpenAI reasoning models (o-series / gpt-5) it
+  maps to `reasoning_effort`; on the local `sov` engine it turns thinking on. If the
+  active model can't reason, `/effort` tells you and stays a no-op — it never sends a
+  parameter the model would reject.
+- **Pick a default.** A new `thinking.effort` setting (editable in `/config`) chooses the
+  starting reasoning depth for new sessions.
+- **Off by default — nothing changes unless you opt in.** At `off` (the default) every
+  request is byte-for-byte identical to before, so there's no added cost or latency until
+  you dial it up.
+
+(ollama reasoning depth is planned for a later release — `/effort` is currently a no-op on ollama models.)
+
 ## v0.6.36 — 2026-06-09
 
 **Run your local engine from `/config` — and see exactly which model you're using.**
