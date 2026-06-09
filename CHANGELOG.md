@@ -1,5 +1,23 @@
 # Changelog
 
+## v0.6.36 — 2026-06-09
+
+**Run your local engine from `/config` — and see exactly which model you're using.**
+
+- **The local Sovereign engine is a first-class choice in `/config`.** Pick `sov` as
+  your provider (or as a task-routing lane) right from the config UI, and the model
+  picker suggests the engine's installed model. Two ready-made task-routing presets —
+  **`sov-cheap`** (basic atoms run local, escalate the rest to Claude) and
+  **`sov-first`** (cheap + moderate local, only frontier to Claude) — let you go
+  local-first with one `/config apply-preset`.
+- **Models show their real names — no aliases.** The local engine now advertises models
+  under their real id (e.g. `mlx-community/Qwen3-4B-4bit`) instead of a generic
+  "sovereign" label, so the `/config` picker and your requests always say exactly what's
+  running. (If you previously pinned `model: "sovereign"` for the `sov` lane, switch it
+  to the real model id.)
+
+If you don't use the local `sov` engine, nothing changes.
+
 ## v0.6.35 — 2026-06-09
 
 **Install plugins — bundles of skills and slash-commands — behind a consent gate that keeps third-party code from running anything you didn't approve.**
