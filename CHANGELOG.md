@@ -1,5 +1,20 @@
 # Changelog
 
+## v0.6.33 — 2026-06-08
+
+**Fix: the response no longer loops forever after a turn completes.**
+
+- **Infinite turn re-stream fixed.** After a turn finished, the TUI and `sov drive`
+  reconnected to the event stream without a `Last-Event-ID`, so the server replayed
+  the whole just-completed turn — including its completion event — which ended the
+  stream again and triggered another reconnect, re-rendering the same assistant
+  response over and over until you hit Ctrl-C. Both clients now send `Last-Event-ID`
+  on reconnect (the standard SSE resume mechanism, which the web UI already used), so
+  a post-turn reconnect resumes *after* the last event instead of re-fetching the
+  turn. The server is unchanged.
+
+Update with `sov upgrade`.
+
 ## v0.6.32 — 2026-06-08
 
 **The subscription executor runs unattended-friendly by default; skills hardening.**
