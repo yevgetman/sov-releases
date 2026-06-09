@@ -1,5 +1,25 @@
 # Changelog
 
+## v0.6.34 — 2026-06-09
+
+**Run your own local inference engine as a first-class provider — and reasoning models no longer leak their thinking into the answer.**
+
+- **New `sov` provider — a keyless local lane.** You can now point the harness at
+  a local OpenAI-compatible inference server (the Sovereign L1 engine on
+  `127.0.0.1:8000`) as a first-class provider — set `router.localProvider: "sov"`
+  and/or a `providers.sov` block. No API key required (it's loopback), and `sov`
+  is selectable anywhere a provider is. It defaults to the served model name
+  `sovereign`. This is the harness side of running your own owned, private-local
+  inference instead of a third-party API.
+- **Reasoning is separated from the answer.** For models that stream a reasoning
+  channel (`reasoning_content`), the harness now routes that into the `thinking`
+  stream instead of mixing it into the reply text — cleaner answers, with the
+  reasoning shown where thinking belongs. This also improves the existing
+  `openai` / `openrouter` lanes, not just `sov`.
+
+If you don't configure a `sov` provider, your normal `sov`, `sov serve`,
+`sov drive`, and gateway usage is unchanged.
+
 ## v0.6.33 — 2026-06-08
 
 **Fix: the response no longer loops forever after a turn completes.**
