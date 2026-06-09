@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.6.35 — 2026-06-09
+
+**Install plugins — bundles of skills and slash-commands — behind a consent gate that keeps third-party code from running anything you didn't approve.**
+
+- **Plugins are now a thing.** A plugin is one installable folder bundling **skills + slash-commands** (Claude-Code-compatible format). Manage them with `/plugins install <dir>`, `uninstall`, `enable`, `disable`, `list`, and `info`. They live under `~/.harness/plugins/` and load at startup (restart to apply).
+- **Nothing loads without your consent.** Installing shows a plain-language **capability disclosure** (what skills/commands it adds, what it ships, anything flagged) and asks for an explicit `y/N`. A plugin contributes **nothing** until you've consented — and consent is bound to a content hash of the whole plugin: if the files change after you approved them, the plugin goes **inert** until you reinstall. Dropping a folder into the plugins directory by hand does nothing on its own.
+- **Safe by default.** Plugin skills **cannot run shell commands** when they expand (unlike your own skills) — they're prompt/template only. Install is a **local-terminal-only** action, so a plugin can never be installed or consented remotely (via the gateway, web UI, or a channel). A plugin can override a bundled skill but can **never shadow your own** project/user skills, and built-in slash commands always win over a plugin's.
+- **Honest Claude-Code compatibility.** Claude-Code-format **skill and command** packs install and work today. If a plugin also declares hooks, MCP servers, or sub-agents, those are **shown to you but not run** in this version (coming in a later release) — so you always know what a plugin *wants* even when the harness doesn't act on it yet.
+- **Opt-in config.** A `plugins: { enabled, disabled }` block in your config gives you allow/deny control; by default a consented plugin is active.
+- **Reliability fix under the hood.** The harness now reliably keeps its session database and config under the home directory you point it at — fixing a contention slowdown that could make the first turn time out on a busy machine.
+
+If you don't install any plugins, nothing changes — `sov`, `sov serve`, `sov gateway`, and the TUI all behave exactly as before.
+
 ## v0.6.34 — 2026-06-09
 
 **Run your own local inference engine as a first-class provider — and reasoning models no longer leak their thinking into the answer.**
