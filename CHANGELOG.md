@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.6.38 — 2026-06-10
+
+**Full-codebase security & robustness audit — 17 fixes across every subsystem, all confirmed Critical/High findings closed.**
+
+- **Security.** Closed an unauthenticated remote-code-execution path on the channels gateway: the Bash "read-only" classifier (which the safe-by-default channel posture relies on) misclassified `env bash -c …`, `find -delete`/`-exec`, and commands smuggled after a newline or `&` as harmless, so an untrusted Slack/Telegram/webhook/SMS message could run shell unprompted. Also closed SSRF bypasses in WebFetch and the `@url` context reference (IPv4-mapped IPv6 + DNS-rebinding now blocked), config prototype-pollution via `/config set`, and a skill-args shell-injection path.
+- **Secrets.** Stopped secrets reaching disk/logs in several places — the learning corpus, config display, replay fixtures, and escaped JSON auth headers are now redacted. Release tarballs no longer bundle captured session state (a prior leak of old releases was purged).
+- **Multi-user.** `/clear` no longer locks a gateway user out of their own conversation; `/resume` and `/routing-stats --all` no longer list other users' sessions; `/review` ids are validated.
+- **Reasoning depth.** With `/effort` on, tool-using turns on Claude 4.x no longer fail — the model's thinking signature is preserved across the tool round-trip. OpenAI reasoning models now send the right token field.
+- **Automation.** Cron pre-agent scripts no longer block the server; cron-expression schedules run in your local timezone; `cron show/run/...` accept the short id prefixes that `cron list` prints; `sov mission run` and `sov eval run` work again.
+- **Terminal UI.** A cancelled/errored turn no longer bleeds its partial text into the next one; tool output renders with real line breaks; failed tools show an error marker; a lost connection retries with backoff instead of spinning.
+
+Plus many smaller correctness, lifecycle, and consistency fixes. No config changes required. Full report in the repo at `docs/audits/2026-06-10-full-codebase-audit.md`.
+
 ## v0.6.37 — 2026-06-09
 
 **Dial how hard the model thinks with the new `/effort` command — named reasoning-depth levels, off by default.**
