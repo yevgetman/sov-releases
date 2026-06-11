@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.6.40 — 2026-06-11
+
+**Two terminal-UI fixes: reasoning no longer lingers in your scrollback, and more file types get highlighted.**
+
+- **Reasoning streams in place and then gets out of the way.** With `/effort` on, the model's thinking now streams live in a compact dim region just above the prompt and **disappears the moment the answer arrives** — it's no longer left permanently in your terminal history. You watch it think; once it answers (or the turn ends), only the answer remains. (v0.6.39 made reasoning readable but committed it to the transcript forever; this puts it where it belongs — ephemeral.)
+- **More filenames get highlighted.** File references in the model's replies are colorized, but the matcher only knew a code-centric set of extensions — so a listing of your files lit up `.png`/`.md`/`.txt` while leaving `.pdf`, `.mov`, `.zip` and friends plain. It now recognizes the common document, image, audio/video, archive, and data extensions too, including multi-word names like `Vulcan — Deployed Agent Orchestrators.pdf`.
+
+No config changes required.
+
 ## v0.6.39 — 2026-06-10
 
 **Local-model reasoning, fixed end to end — readable thinking and direct answers on the `sov` lane.**
