@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.6.39 — 2026-06-10
+
+**Local-model reasoning, fixed end to end — readable thinking and direct answers on the `sov` lane.**
+
+If you run a local model on the `sov` lane (e.g. Qwen3 via an MLX/vLLM server), two rough edges are gone:
+
+- **Reasoning no longer renders as a broken vertical sliver.** Local engines stream reasoning one token at a time; the TUI was printing each token on its own line (1–3 words per line). Reasoning now buffers into one clean, word-wrapped block at the terminal width — the same as any other text. (Cloud models were never affected; they stream in larger chunks.)
+- **The model no longer "reasons into the void" and exits without answering.** A small local model in thinking mode could spend its entire token budget reasoning and never produce an answer. `/effort off` is now a real off-switch (the `sov` lane defaults to **direct answers**, with reasoning opt-in via `/effort low|medium|high|max`) — previously the off-switch was a no-op because the model's chat template defaulted thinking *on*. And when thinking is off, the answer the engine returns on its reasoning channel is now surfaced as the actual response instead of dim "thinking" text.
+
+Plus two small touches: a turn that hits the token limit now shows an actionable hint (try `/effort off`, or raise `maxTokens`), and a malformed tool call with no command renders `(no command)` instead of a blank line.
+
+No config changes required.
+
 ## v0.6.38 — 2026-06-10
 
 **Full-codebase security & robustness audit — 17 fixes across every subsystem, all confirmed Critical/High findings closed.**
