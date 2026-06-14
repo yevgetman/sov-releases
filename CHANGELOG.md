@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.6.43 — 2026-06-14
+
+**`/config` now tells you — for every setting — whether your change took effect right away or needs a restart, and applies far more of them live.**
+
+Editing settings in the live config menu (`/config` in a session, or `sov config`) used to be murky: some changes applied immediately, some quietly didn't until you restarted, and the badge could disagree with what actually happened. This release makes it unambiguous and applies many more settings on the spot.
+
+- **Every save tells you exactly what happened, and names the setting.** You'll see one of: *"applied to this session"* (green — it's live now, including in your current conversation), *"restart sov to take effect"* (for the few settings captured at startup), or *"applies to the gateway/serve process"* (for settings that only a separate `sov gateway`/`sov serve` process uses). The row badge and the save message always agree.
+- **Far more settings apply immediately** — to your *running* conversation, no restart: the **model** and **provider** (and API keys / endpoints / router lanes — the whole provider stack re-resolves between turns), **reasoning effort** (`/config` now matches `/effort` — previously editing it here did nothing), **task routing**, **permission mode** (with a loud indicator when you switch to `bypass`), **web search**, **learning/recall**, **compaction thresholds**, and the **UI appearance** flags.
+- **A loud indicator when you enable `bypass`** permission mode, so auto-approve is never silently on.
+- **More settings are reachable** in the menu (recall tuning, the `sov` local-engine provider, and several gateway fields that were previously only editable by hand), and partially-hidden config blocks now surface their stray fields.
+
+No config changes required.
+
 ## v0.6.42 — 2026-06-14
 
 **Security + correctness hardening: a second deep-dive bug hunt closed 46 issues, including a remotely-reachable command-execution hole on the chat-channel gateway.**
