@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.6.42 — 2026-06-14
+
+**Security + correctness hardening: a second deep-dive bug hunt closed 46 issues, including a remotely-reachable command-execution hole on the chat-channel gateway.**
+
+This release follows up the 2026-06-10 full-codebase audit with a focused second pass over the code that audit *changed* — because fixes can introduce bugs, and a few were incomplete. 46 issues were found and all fixed (1 critical, 10 high, 12 medium, 23 low). The ones that affect you:
+
+- **Closed a channel-gateway remote command-execution hole (critical).** If you expose the `sov gateway` to inbound chat channels (Slack/Telegram/webhook/SMS), an untrusted sender could run a destructive shell command (e.g. a quoted `find … -delete` / `find … -exec …`) with **no permission prompt** — the read-only-command classifier was fooled by quoting the dangerous part. Now closed; local single-user use was never affected.
+- **Tightened the web-fetch protections against internal-network access (SSRF).** Fetching a URL (the WebFetch tool and `@url` references) now blocks more private/cloud-metadata address forms (additional IPv6 private ranges, carrier-grade NAT, an IPv6 form that embeds a private IPv4), pins the connection to the address it validated, and bounds the DNS lookup by the request timeout.
+- **Reasoning models (OpenAI o-series / GPT-5) now start correctly.** Pinning your default model to one of these no longer fails at startup — the request used a field those models reject.
+- **Long-running gateways no longer crash-loop on restart.** A session-cleanup query could exceed a database limit once enough scheduled/channel sessions had accumulated; it's now bounded.
+- **The learning loop keeps working as a project's history grows.** The observations file is now capped to a recent window, so background synthesis no longer silently stops once it crosses a size limit.
+- **Terminal UI:** idle connections no longer spin in a tight reconnect loop; failed tool calls now show an error marker; reasoning wraps correctly on narrow terminals.
+- **More secrets are masked** in `sov config show` (the Twilio Account SID and from-number now join the auth token), and several smaller correctness fixes across the OpenAI-compatible API, the local/frontier router, cron locking, and the web UI.
+
+No config changes required.
+
 ## v0.6.41 — 2026-06-14
 
 **Multi-user gateway fix: `/effort` is now per-session, so one user can no longer change another user's reasoning depth.**
