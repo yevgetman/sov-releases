@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.6.41 — 2026-06-14
+
+**Multi-user gateway fix: `/effort` is now per-session, so one user can no longer change another user's reasoning depth.**
+
+- **`/effort` is scoped to your own session.** On a shared `sov gateway` with multiple users (principals), the reasoning-depth level you set with `/effort` was stored globally on the server — so one user's `/effort high` silently changed the depth for *every* other user, and for scheduled (cron) and channel (Slack/Telegram/webhook) turns too. It's now stored per session: your `/effort` affects only your own conversation, and cron/channel turns always use the operator's configured default. Single-user surfaces (the local TUI, `sov drive`, `sov serve`) were never affected. (Known limit: a session's effort returns to the configured default if the session is reclaimed after a long idle period or after a mid-turn compaction — just re-run `/effort` to restore it.)
+
+No config changes required.
+
 ## v0.6.40 — 2026-06-11
 
 **Two terminal-UI fixes: reasoning no longer lingers in your scrollback, and more file types get highlighted.**
