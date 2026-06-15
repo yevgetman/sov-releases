@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.6.47 — 2026-06-15
+
+**The subscription-executor now actually gets used when you turn it on.**
+
+Previously, enabling the subscription-executor only made it a *legal* delegation target — nothing nudged the model to pick it, so it would often just do the work itself (e.g. build a page inline) and never hand off to your `claude -p` subscription. This release adds a soft delegation bias: when `subscriptionExecutor.enabled` is on, the model is instructed to **prefer delegating substantive work** (writing/editing files, running commands, builds, multi-step tasks, research, debugging) to the headless `claude -p` subprocess, while still handling trivial conversation (greetings, clarifying questions, quick facts) directly.
+
+- It's a *soft* bias — the model still judges each turn, but defaults to the shell when in doubt — not a forced dispatch of every message.
+- Restart-to-apply, like the rest of the subscription-executor config. Turns off cleanly when the feature is off.
+- No change to how delegation runs; this only changes how *often* the model chooses the shell. Personal/attended use only (unchanged ToS boundary — still off cron, channels, and the gateway).
+
 ## v0.6.46 — 2026-06-15
 
 **Your conversations are now saved as readable per-session transcript files — and the subscription-executor shows up in the status bar when it's on.**
