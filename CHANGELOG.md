@@ -1,5 +1,23 @@
 # Changelog
 
+## v0.6.45 — 2026-06-15
+
+**Hardening: an adversarial review of the new multi-agent workflows closed two data-race bugs in parallel write fan-out and made the headline parallelism reliable.**
+
+A deep review of the workflow feature shipped in v0.6.44 found and fixed every confirmed correctness and safety issue. Nothing changes in how you author or run workflows — they're simply correct under more conditions now.
+
+- **Parallel write fan-out no longer races.** Two fixes: tasks whose write scopes looked disjoint but could touch the same file (e.g. `writes: ['src/foo*']` vs `writes: ['src/foobar.ts']`, or paths differing only in letter case on macOS) are now correctly serialized; and the opt-in subscription-executor (headless Claude Code) now takes the whole-tree write lock so it can't clash with sibling tasks.
+- **Wide fan-out runs every task.** A phase with more than 4 parallel tasks (e.g. a `map` over many findings) previously dropped the extras silently — they now all run, bounded to a sensible in-flight width.
+- **A failing step degrades gracefully** instead of crashing the whole run when a later phase references the failed step's output.
+- **Workflows are validated up front** — an unknown agent, an unknown cost lane, or a bad `{{reference}}` now fails fast with a clear message before any work starts, on every surface (CLI, `/workflow`, and the new tool).
+- **The model can now trigger a workflow itself** via the `workflow_run` tool (it was CLI/slash-only).
+- **`/workflow` now accepts quoted multi-word arguments** (e.g. `/workflow review diff="the broken parser"`).
+- Smaller fixes: scoped tasks can use memory/skill tools again; a default list argument is parsed correctly; the loader tolerates an unreadable subdirectory; workflow runs feed the learning loop.
+
+In-TUI workflow progress is still coming in a follow-up; the CLI shows live progress today.
+
+No config changes required.
+
 ## v0.6.44 — 2026-06-15
 
 **New: declarative multi-agent workflows — define a parallel fan-out plan once and run it, with write-capable steps now running in parallel.**
