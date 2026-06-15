@@ -1,6 +1,17 @@
 # Changelog
 
-## v0.6.45 — 2026-06-15
+## v0.6.46 — 2026-06-15
+
+**Your conversations are now saved as readable per-session transcript files — and the subscription-executor shows up in the status bar when it's on.**
+
+- **Session transcripts (on by default).** Every session now writes a human-readable JSONL transcript — one file per session — under your harness home: `~/.harness/projects/<your-project-path>/<session-id>.jsonl` (browsable, just like Claude Code's `~/.claude/projects/...`). It's appended as the conversation happens and includes the full messages (text, thinking, tool calls + results). Works across every surface: the TUI, the gateway, channels (Slack/Telegram/etc.), the OpenAI-compatible API, and post-compaction sessions. The conversation was always saved in the session database; this adds the portable, inspectable file form.
+  - **Secrets are redacted by default** before writing (set `transcripts.redactSecrets: false` to opt out).
+  - **Configure** via `/config` → **Transcripts** (or the `transcripts` block in config): `enabled` (default true), `dir` (default `~/.harness`), `redactSecrets` (default true).
+  - The `harness_info` tool now reports where transcripts are being written.
+- **"Debug mode" transcript settings fixed.** The old `debugMode.transcript` / `debugMode.transcriptDir` settings and the `--transcript` flag never actually wrote anything (leftover dead config). They're now retired and superseded by the always-on `transcripts` block above; `debugMode.transcriptDir` is still honored as a fallback for `transcripts.dir`.
+- **Subscription-executor indicator.** When the opt-in subscription-executor is enabled, the TUI status line now shows a loud red **`⚠ SUB-EXEC`** chip — so you can always tell, while working, that delegated tasks may be routed to a headless `claude -p --dangerously-skip-permissions` subprocess. (Restart-to-apply, like the feature itself.)
+
+Existing sessions and resume behavior are unchanged — the session database remains the source of truth; transcripts are an additional, always-on mirror.
 
 **Hardening: an adversarial review of the new multi-agent workflows closed two data-race bugs in parallel write fan-out and made the headline parallelism reliable.**
 
