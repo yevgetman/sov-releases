@@ -1,5 +1,20 @@
 # Changelog
 
+## v0.6.44 — 2026-06-15
+
+**New: declarative multi-agent workflows — define a parallel fan-out plan once and run it, with write-capable steps now running in parallel.**
+
+You can now define a **workflow** — a YAML plan that fans sub-agents out in parallel across a list or a set of dimensions, waits (barriers between phases), threads each phase's output into the next, and synthesizes a result — and run it deterministically. This is the structured counterpart to letting the model improvise delegation.
+
+- **Author a workflow** as a YAML file under `workflows/` (in your project, your harness home, or the bundle): ordered **phases**, each a parallel set of tasks or a **map** that fans one task across a list; outputs thread forward with `{{phase.field}}` templating; each task can declare a **cost lane** and a **write scope**.
+- **Run it** three ways: `sov workflow run <name> --arg k=v …` (and `sov workflow list` / `sov workflow show <name>`), or `/workflow <name> k=v …` inside a session.
+- **Write-capable fan-out now runs in parallel.** Previously all file-writing sub-agents shared one global lock and ran one-at-a-time. A workflow task can declare which paths it writes (`writes: [...]`); tasks touching **disjoint** paths now run concurrently, while overlapping ones still serialize — so e.g. a parallel multi-file pass is genuinely parallel. The declared scope is also **enforced** (a task can't write outside it), so the parallelism is safe.
+- A bundled example workflow (`review`) ships in the default bundle: `sov workflow show review`.
+
+Everything is backward-compatible — existing sub-agent delegation behaves exactly as before. (The agent-invocable `workflow_run` tool and in-TUI workflow progress are coming in a follow-up; the CLI + `/workflow` are fully functional now.)
+
+No config changes required.
+
 ## v0.6.43 — 2026-06-14
 
 **`/config` now tells you — for every setting — whether your change took effect right away or needs a restart, and applies far more of them live.**
