@@ -1,5 +1,22 @@
 # Changelog
 
+## v0.6.49 — 2026-07-03
+
+**Your token counts and costs are now accurate — and richer.**
+
+Previously, a turn where the agent used tools (which makes several model calls under the hood) reported only the *last* model call's tokens and cost — so multi-step turns silently under-reported what they actually consumed. This release fixes that everywhere the numbers surface (live status, per-session cost records, session summaries) and upgrades what's reported:
+
+- **Bug fix — full-turn totals.** Token counts and estimated cost now sum *every* model call in the turn, not just the final one. Expect numbers on tool-heavy turns to be larger than before — they were always this large; now they're reported honestly.
+- **Bug fix — no more dropped fields.** Per-call usage records could lose input/cache token figures depending on how the provider streamed them; fields are now merged correctly.
+- **Cache visibility.** The end-of-turn status now includes a prompt-cache hit rate, and the turn-complete event carries the full phase-broken usage (input / output / cache-write / cache-read) for API consumers.
+- **For SDK embedders** (`@yevgetman/sov-sdk` 0.2.0): `RunResult` now returns the run's summed `usage` + `estimatedCostUsd`; the usage accumulator and the pricing table (`PRICE_TABLE`, `PRICING_VERSION`, `estimateCostUsd`) are public exports; a new informational `reasoningTokens` field breaks out reasoning tokens where providers report them; OpenAI-compatible providers now map cached and reasoning token details correctly.
+
+## v0.6.48 — 2026-07-03
+
+**The Sovereign AI Harness is now the Sovereign AI SDK.**
+
+Repo-wide rename plus a deep internal hardening pass: an exhaustive security audit + remediation of the SDK core, dependency advisories cleared, and consumable packaging for the open-core `@yevgetman/sov-sdk` + `@yevgetman/sov-protocol` packages. Day-to-day `sov` behavior is unchanged; see the release notes for details.
+
 ## v0.6.47 — 2026-06-15
 
 **The subscription-executor now actually gets used when you turn it on.**
