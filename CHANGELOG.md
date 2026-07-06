@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.6.50 — 2026-07-06
+
+**Meter any `sov` agent's token usage into Assay — in real time, and without a single line of content ever leaving the process.**
+
+This release adds the SDK's official token-accounting export, wiring `sov` to Assay — the token-audit and valuation tool — at the protocol level. Neither product imports the other; they agree on a span contract and a shared, byte-pinned conformance fixture tested independently in both repos ("protocol marriage, not code marriage").
+
+- **New SDK export — `createAssayUsageRecorder`** (`@yevgetman/sov-sdk` 0.3.0): a zero-dependency recorder that converts the usage events the SDK already emits into standard OpenTelemetry `gen_ai` spans and streams them as OTLP/JSON to a local `assay serve`. One priced chat span per model call (carrying the dominant tool that call invoked), one span per tool run, one trace per turn (`sov.turn.id` → an Assay task).
+- **Usage only — never content.** Token counts, model/tool identities, and timings leave the process; prompts, completions, and tool arguments never do. Even a misconfigured off-box endpoint could leak no text.
+- **Real-time ROI.** Once wired, every Assay analytic — pricing, work-type classification, waste, per-turn task ROI, judge valuation — runs natively on live `sov` data.
+- **Robust by contract.** Fire-and-forget transport: retry-once-then-drop, a bounded drop-oldest queue, and a recorder that never throws into your agent loop.
+
+Day-to-day `sov` CLI behavior is unchanged — this is an opt-in export for SDK embedders.
+
 ## v0.6.49 — 2026-07-03
 
 **Your token counts and costs are now accurate — and richer.**
