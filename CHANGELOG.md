@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.6.51 — 2026-07-06
+
+**Stop picking models — give `sov` a model router.** This release adds a model-router provider lane: point `sov` at a self-hosted [Manifest](https://github.com/mnfst/manifest) instance, ask for model `auto`, and the router chooses the upstream per request — cost tiers, fallbacks, and spend limits are the router's job, not yours.
+
+- **New provider: `manifest`.** `sov --provider manifest` (or `/config` → Providers → **Manifest (model router)**). Defaults: model `auto`, endpoint `http://localhost:2099/v1` (a loopback self-hosted Manifest), key via `MANIFEST_API_KEY`. Live-applied like the other lanes.
+- **Generic by design.** The lane is an OpenAI-compatible router transport (`RouterProvider`, `@yevgetman/sov-sdk` 0.5.0) — nothing Manifest-specific is imported, so a different router later is just a `baseUrl` change. Routing hints ride ordinary HTTP headers (`providers.manifest.headers`): Manifest custom-tier headers, `x-session-key` for sticky sessions/prompt caching.
+- **See what the router did.** SDK embedders get an opt-in `onRouteResolved` callback reporting the routed model/provider/tier per request (parsed from the router's response headers). Verified live end-to-end: an `auto` request routed to a real upstream with the route reported.
+- **Honest limits (documented):** `/effort` is a no-op on this lane (the routed upstream is unknown); in-process cost estimates price the `auto` alias, so Manifest's own spend tracking is authoritative here. Recipe: `docs/04-extending/routing-an-agent.md` in the source repo.
+- **For SDK embedders — turn-log recorder** (`createTurnLogRecorder`, new since 0.6.50): canonical full-content turn records over the live wire, handed per-turn to a pluggable sink (fail-open, zero dependencies) — including a fix for how turns are delimited on the real gateway stream.
+
+Day-to-day behavior on your existing providers is unchanged — every existing lane is byte-identical; the router lane is opt-in.
+
 ## v0.6.50 — 2026-07-06
 
 **Meter any `sov` agent's token usage into Assay — in real time, and without a single line of content ever leaving the process.**
