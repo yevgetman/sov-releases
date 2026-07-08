@@ -1,5 +1,28 @@
 # Changelog
 
+## v0.6.54 — 2026-07-07
+
+**Inject a one-turn system instruction over the gateway — for workflow/SOP steering that never touches session history — plus a first-class Linux ARM64 binary.**
+
+- **Gateway: per-turn system instructions.** A posted turn can now carry an optional `instructions` field that becomes an **ephemeral** system directive for that turn only — augmented onto the session's system prompt, sent to the model, and never persisted in session history. Built for injecting a one-turn workflow/SOP directive without polluting the conversation. (Mirrors the per-turn `model` override from 0.6.53.)
+- **New release target — `linux-arm64`.** The pipeline now ships a first-class `sov-linux-arm64.tar.gz` alongside darwin-arm64 / darwin-x64 / linux-x64, for aarch64 / Graviton Linux containers that previously needed ad-hoc cross-compiles.
+
+Day-to-day `sov` CLI behavior is unchanged — the per-turn instruction channel is a gateway-API feature for embedders.
+
+## v0.6.53 — 2026-07-07
+
+**Gateway: switch models per turn within one session.** A posted turn can now carry an optional `model`, so one chat session can run a turn on Haiku and the next on Sonnet without starting a new gateway process. Additive and validated at the untrusted boundary — a turn with no `model` is byte-identical to before. Primarily a gateway-API feature for embedders; the standalone CLI is unaffected.
+
+## v0.6.52 — 2026-07-07
+
+**The model-router lane ships in a published binary — plus turn-log recorder fixes.** This is the first published build carrying the `manifest` model-router lane introduced in 0.6.51 (which was tagged but not published due to a release collision — see the 0.6.51 notes below for the full router-lane description). It also lands turn-log recorder fixes for SDK embedders:
+
+- **One tool-call row per execution.** Wire block indexes restart per assistant message, which previously collapsed repeated tool executions into a single record; each execution is now recorded distinctly.
+- **One thinking row per reasoning phase.** An agentic turn's reasoning was merging into one thinking unit (chronologically misleading, and at risk of the store's content cap on long turns); reasoning now finalizes at each non-thinking content boundary.
+- **`flushOpen` — durably capture a stalled turn.** A new recorder method seals and flushes a turn that errored or never emitted `turn_complete`, marking those records `incomplete` with a reason — so a crashed or stalled turn isn't silently lost.
+
+Day-to-day CLI behavior on existing providers is unchanged.
+
 ## v0.6.51 — 2026-07-06
 
 **Stop picking models — give `sov` a model router.** This release adds a model-router provider lane: point `sov` at a self-hosted [Manifest](https://github.com/mnfst/manifest) instance, ask for model `auto`, and the router chooses the upstream per request — cost tiers, fallbacks, and spend limits are the router's job, not yours.
