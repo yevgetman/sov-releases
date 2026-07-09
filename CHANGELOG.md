@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.6.56 — 2026-07-09
+
+**`sov run` hardening: clean SIGINT/SIGTERM shutdown + whitespace-stdin guard.** A deep testing/debugging pass (round 2) on the headless machine contract.
+
+- **SIGINT/SIGTERM handled.** An interrupt mid-turn (Ctrl-C, adapter timeout/kill, scheduler stop) now cancels the in-flight turn, emits a terminal `turn.error { error: "interrupted", recoverable: true }` carrying the persisted session id, and exits the conventional 128+signum code (130 SIGINT / 143 SIGTERM) — with the in-process server and runtime still torn down cleanly in the `finally`. `recoverable: true` tells the adapter it can `--resume`. Previously an interrupt left the caller reading a truncated JSONL stream with no terminal event.
+- **Whitespace-only stdin is empty.** A blank/whitespace prompt is now rejected side-effect-free (structured `turn.error`, `sessionId: null`, no session DB/transcript) instead of running a wasted turn.
+
+No critical/high findings; the surface remains loopback-only with structured, clean error envelopes. `sov drive` and day-to-day CLI behavior are unchanged.
+
 ## v0.6.55 — 2026-07-09
 
 **A machine-readable headless runner — `sov run --json --stdin` — so external harnesses (Telekit) can drive `sov` without scraping `sov drive` text.**
