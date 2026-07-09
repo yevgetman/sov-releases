@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.6.55 — 2026-07-09
+
+**A machine-readable headless runner — `sov run --json --stdin` — so external harnesses (Telekit) can drive `sov` without scraping `sov drive` text.**
+
+- **New: `sov run` machine contract.** `sov run --json --stdin` reads **all stdin as one prompt** (newlines preserved — no more one-turn-per-line splitting), runs exactly one turn through the same in-process server the TUI uses, and emits newline-delimited JSON on stdout: a `session.started` bootstrap event, protocol passthrough events (`text_delta`, `tool_use_*`, `permission_request`, …), and a terminal `turn.completed` (with `reply`, `finishReason`, `usage`) or `turn.error`. Supports `--resume <id>`, `--provider`, `--model`, `--effort`, `--permission-mode`, `--db`, `--max-tokens`, `--no-cache`, `--no-preflight`. Headless `permission_request` auto-denies, so `ask` mode can never block forever.
+- **Why.** `sov drive` is line-oriented and human-readable — fine for semantic tests, wrong as an integration contract. `sov run` is the stable machine surface Telekit (and other adapters) shell out to.
+- **Input hardening.** stdin is read and validated *before* the runtime boots; empty stdin is a clean usage error (exit 2), not a silent no-op.
+- **Source-mode install fixes.** `sov upgrade` (the developer `~/.bun/bin/sov` install) now resolves workspace packages via a source checkout, repairing workspace source upgrades.
+
+`sov drive` is unchanged. The new surface is additive.
+
 ## v0.6.54 — 2026-07-07
 
 **Inject a one-turn system instruction over the gateway — for workflow/SOP steering that never touches session history — plus a first-class Linux ARM64 binary.**
