@@ -1,5 +1,24 @@
 # Changelog
 
+## v0.6.57 — 2026-07-09
+
+**Mid-turn steering: `sov run --steer-file`.** A machine adapter (e.g. a Telegram
+bridge) can now inject operator messages into a **running** `sov run` turn.
+
+- `--steer-file <path>` names a JSONL file (`{"text": "..."}` per line) that the
+  turn loop polls at agent-loop boundaries and consumes atomically. At a tool
+  boundary the framed message merges into the tool batch's user message; when
+  the model has already composed its final answer, a pending steer becomes a
+  standalone user message and the turn **continues** to address it (`maxTurns`
+  bounds continuations, and a steer is never consumed on the final iteration —
+  it stays at the source for the adapter to deliver as a follow-up).
+- A `steer_injected` event announces each injection on the wire (additive).
+- Consume discipline is loss-proof: read failures restore the file, swaps
+  stranded by a killed consumer are recovered and re-ingested, swap names are
+  collision-free, and injected text always carries untrusted-content framing.
+- SDK surface: `QueryParams` / `AgentConfig` / `PerTurn.pollSteering` — a host
+  thunk mirroring `recall`. Without `--steer-file`, behavior is byte-identical.
+
 ## v0.6.56 — 2026-07-09
 
 **`sov run` hardening: clean SIGINT/SIGTERM shutdown + whitespace-stdin guard.** A deep testing/debugging pass (round 2) on the headless machine contract.
