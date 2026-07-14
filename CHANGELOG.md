@@ -1,5 +1,31 @@
 # Changelog
 
+## v0.6.59 — 2026-07-14
+
+**Decorum audit trail via a general external-observability inlet.** Governance
+decisions (block / redact / pass / escalate — each tagged with the rule id + the
+pack's config hash) now flow into the gateway's per-session trace log. Two
+reusable, independently-usable contracts plus a thin bridge:
+
+- **decorum** exposes a versioned, content-free audit-producer contract
+  (`DecorumAuditEventSchema`, `DECORUM_AUDIT_SCHEMA_VERSION`) — consumable by any
+  host.
+- **the SDK** gains a general `external` trace-event variant + a per-session
+  `recordExternalTrace` inlet — any third-party tool can inject observability
+  into the trace, vendor-neutral (no tool-specific coupling in the core).
+- **the sov→decorum adapter** wires decorum's audit into that inlet, routed by
+  session, deduped to decorum's own rich events.
+
+On by default when a conduct pack is active (`observability.conductAudit`);
+byte-identical when inactive. Bundles decorum 0.7.2.
+
+## v0.6.58 — 2026-07-14
+
+**Conduct Port gateway binding.** The `sov gateway` binary can now load and
+enforce a decorum conduct/persona pack via `config.conduct.configPath`
+(fail-closed at boot on a missing/invalid pack; null-provider byte-identical
+when unset).
+
 ## v0.6.57 — 2026-07-09
 
 **Mid-turn steering: `sov run --steer-file`.** A machine adapter (e.g. a Telegram
