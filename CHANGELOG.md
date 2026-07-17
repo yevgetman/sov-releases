@@ -1,5 +1,35 @@
 # Changelog
 
+## v0.6.64 — 2026-07-16
+
+**Directive overlays: the gateway can bind a tenant's runtime directives.**
+decorum has shipped a directive-overlay layer — its third conduct layer, built for
+user-authored runtime directives ("never bring up refinancing") — since 0.8.0, but
+no host could reach it: the gateway built its provider from a `configPath` and never
+called `withOverlay`, leaving the capability inert in every deployment. This wires it.
+
+- **`conduct.overlay` config** — `{ scopeId, instructions?, constraints? }`. When
+  present, the gateway folds the tenant's directives onto the boot-frozen base
+  composition and serves the **scoped** provider. **Absent ⇒ byte-identical.**
+- **Bound once, at boot.** decorum forbids sharing a `sessionId` across the base and
+  a scoped provider (they share per-session streaming state); binding at boot makes
+  that structurally impossible — one gateway process = one scope. This is the natural
+  shape for a host that already runs a gateway per tenant.
+- **`GET /conduct/overlay`** — the intake verdict (`{ accepted, rejected }`), gated
+  by the same auth as the session routes, mounted only when an overlay is bound.
+  decorum does not export its vetting, so the verdict exists only inside the gateway;
+  without this, a refused directive would silently never apply. Content-free:
+  rejections carry a channel, an index, and a reason code — never the tenant's text.
+
+**The safety is decorum's.** Each free-text directive runs the input gate's injection
+screen at intake and compiles to a **discretionary** (advisory, projection-only)
+rule; anything that would loosen or pierce a base rule is refused. Directives stay
+subject to the binding's own `overlays:` envelope (`enabled`, `allow_free_text`,
+`max_rules`) — an overlay sent to a binding that never opted in is rejected
+wholesale. A user directive can never gain mechanical force, and can only tighten.
+
+Bundles decorum 0.9.0.
+
 ## v0.6.59 — 2026-07-14
 
 **Decorum audit trail via a general external-observability inlet.** Governance
