@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.6.67 - 2026-08-01
+
+MCP tools now register **eagerly** (full schemas at turn 1) when the session's
+total MCP tool inventory is 12 or fewer; larger inventories defer behind
+ToolSearch exactly as before. Fixes remote shared-node sessions where the
+`factory node-fs` tools appeared only as deferred stubs and agents fell back
+to stale public web search instead of reading the node.
+
 ## v0.6.64 — 2026-07-16
 
 **Directive overlays: the gateway can bind a tenant's runtime directives.**
