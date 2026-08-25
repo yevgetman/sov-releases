@@ -1,5 +1,31 @@
 # Changelog
 
+## v0.6.70 - 2026-08-25
+
+**Progress-aware loop guard.** The `action-stagnation` detector is removed: it
+counted consecutive calls of the same tool *name* and so measured turn length,
+not stuckness — a single-tool workload (a skill scoped to one tool) died at
+~12 + 12 calls even when every call was distinct and productive.
+
+- **New `no-progress` detector.** Every dispatched call is observed after
+  dispatch; a call is *productive* when what came back is new to the session
+  (or it is a successful side-effect tool). The guard fires only when the last
+  **8** calls were all unproductive — re-reading, re-running, or re-failing with
+  nothing new coming back — regardless of the tool or the turn's length.
+  `consecutive-identical` (4 in a row) and `content-loop` are unchanged.
+- **Configurable.** New top-level `loop` config block: `mode`
+  (`enforce` | `warn` | `off`), `consecutiveIdenticalThreshold`,
+  `noProgressWindow`, `contentChunkSize`, `contentRepeatThreshold`,
+  `contentWindowMultiplier`, `sideEffectTools`, `maxStrikes`. Also per turn via
+  `PerTurn.loop`. `HARNESS_LOOP_DETECTOR=off` still wins. `/config` exposes
+  `loop.mode`, `loop.noProgressWindow`, `loop.consecutiveIdenticalThreshold`,
+  `loop.maxStrikes`.
+- **Explainable.** `loop_detected` carries `reason` (what repeated, in words),
+  `action` (`guidance` | `abort` | `warn`), `mode`, and a `window` for
+  no-progress; the abort error reads `aborted by loop guard (<detector>):
+  <reason>`. A throw inside the guard is recorded as `loop_detector_error` and
+  never fails the turn.
+
 ## v0.6.69 - 2026-08-25
 
 **MCP tools can show the agent an image.** `flattenCallResult` replaced every
