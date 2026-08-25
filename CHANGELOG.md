@@ -1,5 +1,34 @@
 # Changelog
 
+## v0.6.69 - 2026-08-25
+
+**MCP tools can show the agent an image.** `flattenCallResult` replaced every
+image block in a tool result with the literal `[mcp:image content omitted]`, so
+vision through an MCP tool was impossible no matter what the tool returned or
+which model was driving — a tool could render a screenshot and the model
+received a sentence about a picture.
+
+Images now ride `ToolResult.newMessages`, the channel already documented for
+"an image the model must see", landing in the user message that answers the
+tool_use. `tool_result.content` stays a string, so this needed no change to the
+core content types.
+
+- **`mcp/client.ts`** keeps image blocks instead of flattening them, under a
+  per-image base64 cap and a per-call count cap. Every drop still emits a notice
+  the MODEL can read — a silently dropped image is the worst outcome, because
+  the agent then assumes it saw the render and describes it anyway.
+- **`mcp/toolWrapper.ts`** attaches carried images as user-role image blocks.
+- **`providers/openai.ts`** emits `image_url` data-URL content parts instead of
+  `[image omitted: …]`. A text-only message keeps its plain-string `content`, so
+  every other lane on this shared transport serialises byte-identically.
+- **`providers/ollama.ts`** translates those parts into its own split shape
+  (text in `content`, bare base64 in `images`), since Ollama's vision channel
+  differs from the OpenAI one.
+
+Verified end to end against a recording provider: a real MCP tool's screenshot
+reaches the wire as an `image_url` part, and a vision model reads it and reports
+detail that exists only in the pixels.
+
 ## v0.6.67 - 2026-08-01
 
 MCP tools now register **eagerly** (full schemas at turn 1) when the session's
