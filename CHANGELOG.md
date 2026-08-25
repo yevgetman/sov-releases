@@ -1,5 +1,50 @@
 # Changelog
 
+## v0.6.72 - 2026-08-25
+
+**Anthropic prompt caching on the OpenRouter lane.** Anthropic models reached
+through the `openrouter` provider paid full input price on every turn: the
+OpenAI-format transport flattened the system prompt into one string, which
+cannot carry a `cache_control` marker, and Anthropic caches only at explicit
+breakpoints. Measured on an identical 18K-token request: $0.0361 uncached vs
+$0.0037 cached — about 10x.
+
+- **One shared cache policy.** `providers/promptCache` now owns the rule both
+  transports use: mark the last cacheable system segment, mark the last
+  cacheable block of each of the last 3 messages, never more than Anthropic's
+  4 breakpoints per request. The Anthropic transport imports it unchanged; an
+  anti-drift test pins that both lanes mark the same messages.
+- **Applied on the openrouter lane for `anthropic/*` models only**, and only
+  when caching is on (`--no-cache` and the preflight probe stay uncached). The
+  marked system prefix and its volatile tail concatenate to exactly the flat
+  string sent before, so the model sees the same prompt either way.
+- **Every other lane, model and flag is byte-identical** — OpenAI proper
+  (caches automatically), non-Anthropic OpenRouter models (implicit caching),
+  sov/vLLM, Ollama, the router lane — pinned against pre-change literals.
+- Live-verified end to end (`anthropic/claude-sonnet-5`): 4 breakpoints in the
+  body, 7,125-token cache write on request 1, 7,125-token cache read on
+  request 2.
+
+sdk 0.10.1 -> 0.10.2 (additive).
+
+## v0.6.71 - 2026-08-25
+
+**Real reasoning control.** On the OpenRouter lane `effort: off` was not an off
+switch — it omitted the unified `reasoning` param, and models that reason by
+default (z-ai/glm-5.x, DeepSeek R1, Qwen thinking) reasoned anyway. In
+production a tailor turn under `low` spent 191 s of a 201 s run reasoning.
+
+- **`off` is an explicit disable**: `reasoning: { enabled: false }` is sent for
+  every curated reasoning model on the openrouter lane. Measured on glm-5.2:
+  no param ⇒ 400 reasoning tokens and no answer; `enabled: false` ⇒ 0.
+  `effort` unset still omits the param (byte-identical legacy body). Known
+  limit: OpenAI o-series / gpt-5 cannot disable reasoning.
+- **Per-turn effort over the gateway**: `POST /sessions/:id/turns` accepts
+  `effort` (`off|low|medium|high|max`) for that turn only; an invalid value is
+  a 400, never a silent fallback.
+
+sdk 0.10.0 -> 0.10.1 (additive).
+
 ## v0.6.70 - 2026-08-25
 
 **Progress-aware loop guard.** The `action-stagnation` detector is removed: it
