@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.6.73 - 2026-10-01
+
+Fresh-install privacy and complete-package verification.
+
+- Compile from a committed, tracked source snapshot in a private temporary directory. Record source, dependency, target, version, and reviewed license hashes.
+- Scan both binaries, the complete staged bundle, and final archives. Stop on known private residue, missing resources, incomplete scans, or changed package bytes. Preserve Unicode file names and neutral archive ownership.
+- Ship the actual bundle contract with `sov init`. Preserve an edited contract on reinitialization. Mission help gives the real scheduler command with quoted paths.
+- Keep approved publishing identities and generic, replaceable persona defaults. The residue scan is not general secret detection.
+
+SDK 0.10.3 is a provenance release of the current open-core source. It adds no new SDK API beyond 0.10.2. Its verified package is supplied to the Kernel dependency update; this does not introduce a new npm publishing channel.
+
 ## v0.6.72 - 2026-08-25
 
 **Anthropic prompt caching on the OpenRouter lane.** Anthropic models reached
