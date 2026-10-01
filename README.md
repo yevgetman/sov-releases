@@ -32,7 +32,7 @@ Re-run the same command anytime to upgrade.
 | macOS Intel (`darwin-x64`) | Supported |
 | Linux x86_64 (`linux-x64`) | Supported |
 | Windows | Not supported (Unix-isms in the runtime) |
-| Linux ARM64 | Not supported (request via email) |
+| Linux ARM64 | Not supported (request through the issue tracker) |
 
 ## macOS first-run
 
@@ -62,5 +62,5 @@ source. Source code is not distributed.
 
 ## Support
 
-This is a personal beta. For issues or feedback, contact
-**yevgetman@gmail.com**.
+For issues or feedback, use the [release issue tracker](https://github.com/yevgetman/sov-releases/issues).
+For license permissions, contact the party who provided this build.
