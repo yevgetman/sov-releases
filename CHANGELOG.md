@@ -8,6 +8,8 @@ Fresh-install privacy and complete-package verification.
 - Scan both binaries, the complete staged bundle, and final archives. Stop on known private residue, missing resources, incomplete scans, or changed package bytes. Preserve Unicode file names and neutral archive ownership.
 - Ship the actual bundle contract with `sov init`. Preserve an edited contract on reinitialization. Mission help gives the real scheduler command with quoted paths.
 - Keep approved publishing identities and generic, replaceable persona defaults. The residue scan is not general secret detection.
+- Build with verified Bun 1.4.2 and omit generated source-banner comments. Both Mac executables receive ad hoc signing and strict signature checks before final package scans.
+- Use portable TOML error-help path examples. Keep the upstream parser, license, and public Go module identity unchanged. The shared scanner recognizes bounded Go compiler metadata for that same identity.
 
 SDK 0.10.3 is a provenance release of the current open-core source. It adds no new SDK API beyond 0.10.2. Its verified package is supplied to the Kernel dependency update; this does not introduce a new npm publishing channel.
 
