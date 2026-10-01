@@ -18,4 +18,4 @@ author is not liable for any damages arising from its use.
 This license terminates automatically on any breach. On termination
 you must delete all copies.
 
-Contact yevgetman@gmail.com for any other usage.
+Contact the party who provided this build for any other usage.
