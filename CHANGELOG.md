@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.6.74 - 2026-10-06
+
+Decorum no longer supplies conduct. The conduct port stays empty. A conduct block in config is ignored.
+
+- ChatGPT and SuperGrok can sign in. Tokens stay in the Keychain. A failed login does not switch to a paid API key. The gateway cannot use these logins.
+- Claude Max HTTP is refused. Anthropic consumer terms checked on 2026-10-06 allow that login only inside Claude Code and Anthropic apps.
+- Toolsets are chat, web, ops, and coding. An unknown name stops the turn before the model runs. When a session store is set, the tool call is saved before it runs.
+- Subscription calls retry on a rate limit or a server error. A prompt that does not fit the model stops the turn.
+
+SDK 0.10.3 -> 0.11.0. New public exports: toolset helpers, `loadSubscriptionProvider`, and the subscription error types. Existing export names stay.
+
 ## v0.6.73 - 2026-10-01
 
 Fresh-install privacy and complete-package verification.
