@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.6.75 - 2026-10-09
+
+Run six explicit authentication routes through the native SDK agent loop.
+
+- Use API keys for OpenRouter, Anthropic, OpenAI, and direct xAI. Use subscriptions for ChatGPT and Grok. Login stays in SOV; adapters can run SOV headlessly.
+- Discover capabilities, supported routes, and local credential status without starting a turn. Invalid or missing credentials stop the selected route; they do not switch billing methods.
+- Native SDK turns support shared tools, durable sessions, cancellation, steering, and strict structured events. They do not start a server or launch another agent harness.
+- Coordinate subscription login, refresh, and logout across processes. Reject failed, truncated, or incomplete Responses tool calls.
+- Preserve resumed messages and save tool calls before execution. Fail safely when session storage fails.
+- Images are supported on OpenRouter, Anthropic, and OpenAI API routes. Other routes refuse image turns before inference.
+
+SDK source version: 0.12.0. Actual subscription eligibility and model availability depend on the provider account. Live paid-inference coverage is separate from the package release checks.
+
 ## v0.6.74 - 2026-10-06
 
 Decorum no longer supplies conduct. The conduct port stays empty. A conduct block in config is ignored.
