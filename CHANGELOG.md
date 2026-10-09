@@ -1,5 +1,23 @@
 # Changelog
 
+## v0.6.76 - 2026-10-09
+
+SDK 0.13.0 — production contracts and lifecycle fixes
+
+- Add an injected context-management port with validated, bounded reductions and one overflow retry. Full stored transcripts stay separate from model context.
+- Add custom capability profiles, native-child policy narrowing, shared tree budgets and child usage reporting.
+- Add bounded session ownership with joined cancellation and shutdown. Distributed storage and external effects remain host responsibilities.
+- Join started tools before returning. Preserve completed receipts when host callbacks or rendering fail. Stop new tool effects once cancellation is observed.
+- Require valid OpenAI-compatible completion before accepting final answers or tool calls. Reject damaged frames, invalid UTF-8, provider errors and malformed reasoning. Generated tool IDs stay distinct across turns.
+- Apply child deadlines to lane and write-lock waiting. Release reservations when lane resolution fails.
+- Keep observed usage and conservative budget bounds after incomplete streams. Known context and retry charges remain visible; unknown billing stays unknown.
+- Support regular-file and pipe input for native and legacy headless commands on Linux.
+
+**Compatibility:** SDK 0.13.0 requires Node 20.19.0 or newer, or Bun 1.2.0 or newer. Compatible backends must send an explicit valid finish reason. Existing interfaces remain available. The context manager is host-supplied; the package adds no built-in summarizer.
+
+The open MIT SDK is available as `yevgetman-sov-sdk-0.13.0.tgz`, with `SDK-SHA256SUMS`. SOV binaries and `SHA256SUMS` are separate assets. Validation uses offline fixtures; live provider eligibility depends on the account.
+
+
 ## v0.6.75 - 2026-10-09
 
 Run six explicit authentication routes through the native SDK agent loop.
