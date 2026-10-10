@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.6.77 - 2026-10-10
+
+SDK 0.14.0 — resilient provider and model discovery
+
+- Discover models by native API or subscription route, or through OpenRouter. Read cached metadata offline and refresh with bounded requests.
+- Use verified model evidence for reasoning controls, context and output limits, images, and tools. Freeze evidence during a turn and refuse unsupported requests before inference.
+- Preserve OpenRouter provider-host, fallback and privacy settings. Share catalogs across headless, server, scheduler and interactive SOV use.
+- Retain pricing snapshots and report incomplete costs explicitly.
+- Preserve partial delegated work on failure and provide bounded, redacted failure details. Trace views distinguish failed tool results.
+
+**Compatibility:** SDK callers must handle unknown costs. Requires Node 20.19.0 or newer, or Bun 1.2.0 or newer. Discovery makes no paid inference requests. Provider eligibility depends on the account.
+
+The MIT SDK package is `yevgetman-sov-sdk-0.14.0.tgz` with `SDK-SHA256SUMS`. SOV binaries use separate `SHA256SUMS`. This public GitHub channel release does not publish to npm.
+
 ## v0.6.76 - 2026-10-09
 
 SDK 0.13.0 — production contracts and lifecycle fixes
