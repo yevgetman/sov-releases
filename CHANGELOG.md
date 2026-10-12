@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.6.78 - 2026-10-11
+
+SDK 0.15.0 — permissioned skill runtime
+
+- Activate skills through explicit permission checks before hooks, expansion or execution.
+- Discover portable skills within bounded scopes. Write skills through transactional, confined stores.
+- Preserve caller arguments and literal tool output. Apply invocation controls and refresh registry visibility at use time.
+- Compose optional SDK skill runtimes. Fit complete skill catalogs within effective model context limits.
+- Retain bounded private skill guidance across sessions without restoring expired tool permissions.
+
+**Compatibility:** additive SDK exports require minor SDK0.15.0. Existing host configuration remains supported. Requires Node20.19.0 or newer, or Bun1.2.0 or newer. Checks use offline fixtures and do not certify paid-provider eligibility or production capacity.
+
+The MIT SDK package is `yevgetman-sov-sdk-0.15.0.tgz` with `SDK-SHA256SUMS`. SOV ships Darwin arm64/x64, Linux arm64/x64 and Windows x64 archives with separate `SHA256SUMS`. The packed SDK README now points to this same version. This public GitHub release does not publish to npm.
+
 ## v0.6.77 - 2026-10-10
 
 SDK 0.14.0 — resilient provider and model discovery
