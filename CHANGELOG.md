@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.6.79 - 2026-10-13
+
+SDK 0.15.1 — Grok subscription pin and catalog policy
+
+- Grok subscription defaults to `grok-4.7` and allowlists `grok-4.6`. It sends Responses `reasoning.effort`, and `max` maps to `xhigh`. Encrypted reasoning is replayed only on that route.
+- Subscription catalogs change only through a reviewed pin or a proven read. A rejected configured default is named and is not replaced.
+- Assistant and message content can include `encrypted_reasoning`. Callers must keep that block on rehydration and must not send it to other providers.
+
+**Compatibility:** Requires Node 20.19.0 or newer, or Bun 1.2.0 or newer. The live subscription probe has not been run. Checks use offline fixtures and do not certify paid-provider eligibility or production capacity.
+
+The MIT SDK package is `yevgetman-sov-sdk-0.15.1.tgz` with `SDK-SHA256SUMS`. SOV ships Darwin arm64/x64, Linux arm64/x64 and Windows x64 archives with separate `SHA256SUMS`. This public GitHub release does not publish to npm.
+
+
 ## v0.6.78 - 2026-10-11
 
 SDK 0.15.0 — permissioned skill runtime
