@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.6.80 - 2026-10-14
+
+SDK 0.16.0 — subscription reliability, context recovery and durable execution
+
+- Preserve complete Grok and ChatGPT reasoning across turns and tools, bound to the exact route, model and login.
+- Import Owner-reviewed subscription catalogs without a package update. Keep explicit permission settings and one effective tool list.
+- Save individual tool results before continuation. Compact long sessions and bound context-overflow recovery. Report uncertain context estimates clearly.
+- Distinguish refresh failures and retry only before semantic delivery. Report completed, interrupted, failed and continuation-required native outcomes accurately.
+- Support verified exact Grok 4.7 PNG/JPEG input and preserve image history across tools, compaction and resume. The bundled image proof expires 2026-11-13.
+
+**Compatibility:** SDK 0.16.0 is a minor release for additive public exports and persistence ports. Existing custom stores remain supported; bind the optional journal for individual tool recovery. Legacy unbound reasoning requires a new session. Inspect unknown tool effects before retry. Node >=20.19.0 and Bun >=1.2.0 remain supported. Protocol stays0.1.0 and debug console stays0.3.0.
+
+**Verification limits:** ChatGPT live replay remains unverified for the available exact-model login. Unknown tokenizers remain advisory. Offline fixtures do not certify physical power-loss recovery or general paid-provider eligibility.
+
+The MIT SDK package is `yevgetman-sov-sdk-0.16.0.tgz` with `SDK-SHA256SUMS`. SOV ships Darwin arm64/x64, Linux arm64/x64 and Windows x64 archives with separate `SHA256SUMS`. This combined GitHub release includes all13 selected fixes in PR81–93 plus reviewed preparation. npm publication remains Owner-operated.
+
 ## v0.6.79 - 2026-10-13
 
 SDK 0.15.1 — Grok subscription pin and catalog policy
