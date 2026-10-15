@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.6.82 - 2026-10-15
+
+SDK 0.16.2 — consistent skill settings and safe startup errors
+
+- Resolve skill discovery, approvals and routing from one bounded settings snapshot across native run, dispatch, reload and local doctor.
+- Keep host approvals authoritative. The first defined approval list replaces inherited lists; an explicit empty list clears them. Project settings cannot grant external-link approvals or change the host project boundary.
+- Reject redirected trust files and incomplete snapshots. Refresh settings as one generation and retain containment and tool permission checks.
+- Report invalid startup configuration before credential access or session creation. Preserve distinct storage failures and safe recovery hints.
+
+**Compatibility:** Patch release with no changed frozen SDK export names. Existing injected SDK configuration bypasses disk layers. Review conflicting inherited approval lists. Node 20.19.0 or newer and Bun 1.2.0 or newer remain supported. The matching installed Kernel producer integration remains unverified; offline fixtures certify the SOV mechanism only.
+
+The MIT SDK package is `yevgetman-sov-sdk-0.16.2.tgz` with `SDK-SHA256SUMS`. SOV ships Darwin arm64/x64, Linux arm64/x64 and Windows x64 with separate `SHA256SUMS`. Linux arm64 is cross-compiled. Mac signatures are ad hoc; no Developer ID signing or notarization is claimed. This GitHub release does not publish to npm.
+
 ## v0.6.81 - 2026-10-15
 
 SDK 0.16.1 — native Kernel skill compatibility
