@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.6.81 - 2026-10-15
+
+SDK 0.16.1 — native Kernel skill compatibility
+
+- Load approved linked Kernel skills through SOV’s native skill path. Exact `context: kernel` stays domain metadata and grants no tools or permissions.
+- Inspect external-link approval problems with exact canonical targets and bounded alias groups in `sov skills doctor --json`. Existing containment and retarget checks remain in force.
+- Keep intended activated guidance across native session resume. Each later turn uses fresh host tool, permission and reference-root policy. Compound members remain independently available; grouping metadata does not execute them.
+
+**Compatibility:** Patch release with no new frozen SDK export names. Node 20.19.0 or newer and Bun 1.2.0 or newer remain supported. The matching installed Kernel producer integration remains unverified. Fixtures establish the SOV mechanism, not general provider quality.
+
+The MIT SDK package is `yevgetman-sov-sdk-0.16.1.tgz` with `SDK-SHA256SUMS`. SOV ships Darwin arm64/x64, Linux arm64/x64 and Windows x64 with separate `SHA256SUMS`. Linux arm64 is cross-compiled. Mac signatures are ad hoc; no Developer ID signing or notarization is claimed. This GitHub release does not publish to npm.
+
 ## v0.6.80 - 2026-10-14
 
 SDK 0.16.0 — subscription reliability, context recovery and durable execution
